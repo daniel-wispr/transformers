@@ -508,7 +508,8 @@ class AutomaticSpeechRecognitionPipeline(ChunkPipeline):
                 if "initial_prompt" in generate_kwargs:
                     initial_prompt = generate_kwargs.pop("initial_prompt")
                 RuntimeWarning("No defined processor for Whisper Prompting. `initial_ptompt` will be ignored.")
-                
+
+            generate_kwargs.pop("generate_kwargs", None)
             tokens = self.model.generate(
                 attention_mask=attention_mask,
                 **generate_kwargs,
@@ -537,7 +538,7 @@ class AutomaticSpeechRecognitionPipeline(ChunkPipeline):
                         out["tokens"][0, 0:nprompt_token] = torch.tensor(
                             [self.tokenizer.unk_token_id] * nprompt_token, dtype=out["tokens"].dtype
                         )
-                                        
+
             if self.type == "seq2seq_whisper":
                 if stride is not None:
                     out["stride"] = stride
