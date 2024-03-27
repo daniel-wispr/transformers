@@ -501,7 +501,7 @@ class AutomaticSpeechRecognitionPipeline(ChunkPipeline):
 
             if self.processor:
                 # Added initial prompt for whisper
-                if "initial_prompt" in generate_kwargs.get("generate_kwargs", {})
+                if "initial_prompt" in generate_kwargs.get("generate_kwargs", {}):
                     initial_prompt = generate_kwargs["generate_kwrags"].pop("initial_prompt")
                     print(f"Detected initial prompt: {initial_prompt}")
                     generate_kwargs["prompt_ids"] = self.processor.get_prompt_ids(initial_prompt)
