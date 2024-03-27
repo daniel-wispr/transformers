@@ -563,6 +563,8 @@ class WhisperGenerationMixin:
                 decoder_input_ids = torch.cat([t * one_tensor for t in init_tokens], dim=-1)
 
             if prompt_ids is not None:
+                if isinstance(prompt_ids, np.ndarray):
+                    prompt_ids = torch.from_numpy(prompt_ids).to(self.device)                
                 decoder_input_ids = torch.cat(
                     [prompt_ids[None].repeat(decoder_input_ids.shape[0], 1), decoder_input_ids], dim=-1
                 )
