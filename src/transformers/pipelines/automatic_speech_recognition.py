@@ -503,12 +503,14 @@ class AutomaticSpeechRecognitionPipeline(ChunkPipeline):
                 # Added initial prompt for whisper
                 if "initial_prompt" in generate_kwargs["generate_kwargs"]:
                     initial_prompt = generate_kwargs.pop("initial_prompt")
+                    print(f"Detected initial prompt: {initial_prompt}")
                     generate_kwargs["prompt_ids"] = self.processor.get_prompt_ids(initial_prompt)
             else:
                 if "initial_prompt" in generate_kwargs["generate_kwargs"]:
                     initial_prompt = generate_kwargs.pop("initial_prompt")
+                    print(f"Detected initial prompt: {initial_prompt} but no processor defined.")
                 RuntimeWarning("No defined processor for Whisper Prompting. `initial_prompt` will be ignored.")
-
+        
             generate_kwargs.pop("generate_kwargs", None)
             tokens = self.model.generate(
                 attention_mask=attention_mask,
