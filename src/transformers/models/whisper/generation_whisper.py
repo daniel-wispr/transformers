@@ -550,7 +550,7 @@ class WhisperGenerationMixin:
 
         if isinstance(prompt_ids, np.ndarray):
             prompt_ids = torch.from_numpy(prompt_ids).to(self.device)
-            
+
         # 5. If we're in shortform mode, simple generate the whole input at once and return the output
         if is_shortform:
             if temperature is not None:
@@ -561,7 +561,7 @@ class WhisperGenerationMixin:
                 one_tensor = torch.ones((batch_size, 1), device=self.device, dtype=torch.long)
                 decoder_input_ids = torch.cat([t * one_tensor for t in init_tokens], dim=-1)
 
-            if prompt_ids is not None:                                 
+            if prompt_ids is not None:
                 decoder_input_ids = torch.cat(
                     [prompt_ids[None].repeat(decoder_input_ids.shape[0], 1), decoder_input_ids], dim=-1
                 )
